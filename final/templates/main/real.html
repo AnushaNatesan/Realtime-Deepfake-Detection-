@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+{% block title %}Real Video Detection{% endblock %}
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data" class="styled-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Check</button>
+</form>
+{% if result %}
+<h1>RESULTS: "{{ result.detection_result }}"</h1>
+{% endif %}
+{% endblock %}

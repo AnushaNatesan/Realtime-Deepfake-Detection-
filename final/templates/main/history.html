@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .top-bar {
+            width: 100%;
+            height: 100px;
+            background-image: url("{% static 'assets/header.jpg' %}");
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .top-bar .title h1 {
+            font-family: 'Times New Roman', serif;
+            color: white;
+        }
+        .side-bar {
+            width: 200px;
+            height: 100%;
+            background-color: #f4f4f4;
+            padding: 10px;
+            top: 100px;
+            left: 0;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .side-bar a {
+            text-decoration: none;
+            color: #000;
+            padding: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .side-bar a:hover {
+            color: #007BFF;
+            background-color: #ccc;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .history-content {
+            background-color: #f0f8ff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .history-content h2 {
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        .history-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .history-content table, .history-content th, .history-content td {
+            border: 1px solid #ddd;
+        }
+        .history-content th, .history-content td {
+            padding: 10px;
+            text-align: left;
+        }
+        .history-content th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .history-content td {
+            background-color: #f9f9f9;
+        }
+        .side-bar .home-link {
+            background-color: #007BFF;
+            color: #f0f8ff;
+        }
+        .side-bar .video-link {
+            background-color: #f0f8ff;
+            color: #007BFF;
+        }
+        .side-bar .stream-link {
+            background-color: #f0f8ff;
+            color: #007BFF;
+        }
+        .side-bar .history-link {
+            background-color: #007BFF;
+            color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="title">
+            <h1>DEEPFAKE DETECTION HISTORY</h1>
+        </div>
+    </div>
+    <div class="side-bar">
+        <a href="{% url 'home' %}" title="Deepfake Detection Portal" class="home-link">Home</a>
+        <a href="{% url 'video' %}" title="Analyze Deepfake Videos" class="video-link">Video</a>
+        <a href="{% url 'stream' %}" title="Live Stream Analysis" class="stream-link">Live Stream</a>
+        <a href="{% url 'history' %}" title="View Detection History" class="history-link">View History</a>
+    </div>
+    <div class="content">
+        <div class="history-content">
+            <h2>Deepfake Detection History</h2>
+            <p>Below is a list of previously analyzed deepfake detection results. You can view details about the videos and live streams that were analyzed.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Type</th>
+                        <th>Video/Stream Link</th>
+                        <th>Detection Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detection in detections %}
+                    <tr>
+                        <td>{{ detection.timestamp }}</td>
+                        <td>{{ detection.type }}</td>
+                        <td><a href="{{ detection.link }}" target="_blank">{{ detection.link }}</a></td>
+                        <td>{{ detection.result }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No detection history found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
